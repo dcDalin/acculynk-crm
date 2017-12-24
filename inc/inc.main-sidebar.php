@@ -40,7 +40,7 @@
 					</span>
 				</a>
 				<ul class="treeview-menu">
-					<li><a href="users">Link in level 2</a></li>
+					<li><a href="users">New User</a></li>
 				</ul>
 			</li>
 			<li class=""><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>

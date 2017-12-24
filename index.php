@@ -28,7 +28,7 @@
     /* Start ajax login process */
     if(filter_has_var(INPUT_POST, 'btn-login')){
         try {
-            $user_email = trim($_POST['email']);
+            $user_email = strtolower(trim($_POST['email']));
             $user_password = trim($_POST['password']);
 
             $password = md5($user_password);

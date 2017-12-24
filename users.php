@@ -21,6 +21,42 @@
         header("Location: index"); /* Redirect browser */
         exit();
     }
+
+    /* Start ajax New User process */
+    if(filter_has_var(INPUT_POST, 'btn-create-user')){
+        try {
+            $firstName = ucfirst(strtolower(trim($_POST['firstName'])));
+            $lastName = ucfirst(strtolower(trim($_POST['lastName'])));
+            $email = strtolower(trim($_POST['email']));
+            $gender = trim($_POST['gender']);
+            $phoneNumber = trim($_POST['phoneNumber']);
+            $idNumber = trim($_POST['idNumber']);
+            $userLevel = trim($_POST['userLevel']);
+
+            $user_password = 'password';
+            $password = md5($user_password);
+
+            $response = array();
+
+            // Check if email and password are correct 
+            $query = $common -> Insert("
+                INSERT INTO tbl_users (firstName, lastName, email, gender, phoneNumber, idNumber, pass, userLevel)
+                VALUES ('".$firstName."', '".$lastName."','".$email."','".$gender."','".$phoneNumber."','".$idNumber."','".$password."','".$userLevel."')
+            ");
+            if(!$query){
+                $response['status'] = 'error'; // could not create user
+                $response['message'] = 'Sorry, Could not create new user'; 
+            }else if($query){
+                $response['status'] = 'success'; 
+                $response['message'] = 'New user successfuly created'; 
+            } 
+            echo json_encode($response);
+            exit;
+        }catch(Exception $e){
+            echo $e;
+        }
+    }
+    /* End ajax New User process */
 ?>
 <!DOCTYPE html>
 <html>
@@ -183,7 +219,7 @@
         });
 
         // name validation
-		 var nameregex = /^[a-zA-Z_]+$/;
+		var nameregex = /^[a-zA-Z_']+$/;
 
         $.validator.addMethod("validname", function( value, element ) {
             return this.optional( element ) || nameregex.test( value );
@@ -238,6 +274,7 @@
                         required: true,
                         number: true,
                         minlength: 5,
+                        maxlength: 15,
                         remote: {
                             url: "ajax/check-exists.php",
                             type: "post",
@@ -282,6 +319,7 @@
                         required: "ID Number is required",
                         number: "ID Number is invalid",
                         minlength: "ID Number is short",
+                        maxlength: "ID Number is too long",
                         remote: "ID Number exists, try another one"
                     },
                     userLevel:{
@@ -330,34 +368,34 @@
             /* Fetch user role, display user role description */
 
 
-            /* login submit */
+            /* Create new user submit */
             function submitForm(){
                 $.ajax({
                     //url: 'index.ajax.php',
                     type: 'POST',
-                    data: $('#login-form').serialize(),
+                    data: $('#new-user-form').serialize(),
                     dataType: 'json'
                 })
                 .done(function(data){
-                    $('#btn-login').html('<img src="ajax-loader.gif" style="margin: auto; width:30%;"> &nbsp; Processing...').prop('disabled', true);
-                    $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', true);
-                    $("#forgot-password").slideUp('fast');
-                    $("#remember-me").slideUp('fast');
-                    
+                    $('#btn-create-user').html('<img src="ajax-loader.gif" style="margin: auto; width:30px;"> &nbsp; Processing...').prop('disabled', true);
+                    $('input[type=email],input[type=text],input[type=tel],input[type=number],input[type=password],input[type=checkbox],#gender,#userLevel').prop('disabled', true);                  
 
                     setTimeout(function(){
                         if (data.status === 'success'){
-                            $("#btn-login").html('<img src="ajax-loader.gif" style="margin: auto; width:30%;"> &nbsp; Redirecting...');
-                            setTimeout(' window.location.href = "profile"; ',4000);
+                            $('#errorDiv').slideDown('fast', function(){
+                                $("#btn-create-user").html('<img src="ajax-loader.gif" style="margin: auto; width:30px;"> &nbsp; Refreshing...');
+                                $('#errorDiv').html('<div class="alert alert-success">'+data.message+'</div>');
+                                $("#new-user-form").trigger('reset');
+                                $('input[type=email],input[type=text],input[type=tel],input[type=number],input[type=password],input[type=checkbox],#gender,#userLevel').prop('disabled', false);
+                                $('#btn-create-user').html('Create New User').prop('disabled', false);
+                            }).delay(3000).slideUp('fast');
                         }else if (data.status === 'error'){
                             $('#errorDiv').slideDown('fast', function(){
                                 $('#errorDiv').html('<div class="alert alert-danger">'+data.message+'</div>');
-                                $("#login-form").trigger('reset');
-                                $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', false);
-                                $('#btn-login').html('Login').prop('disabled', false);
+                                $("#new-user-form").trigger('reset');
+                                $('input[type=email],input[type=text],input[type=tel],input[type=number],input[type=password],input[type=checkbox],#gender,#userLevel').prop('disabled', false);
+                                $('#btn-create-user').html('Create New User').prop('disabled', false);
                             }).delay(3000).slideUp('fast');
-                            $("#forgot-password").slideDown('fast');
-                            $("#remember-me").slideDown('fast');
                         }
                     },3000);
                 })
@@ -366,7 +404,7 @@
                     alert('An unknown error occoured, Please try again Later...');
                 });
             }
-            /* login submit */
+            /* Create new user */
         });
 
     </script>

@@ -12,7 +12,9 @@
 	Both of these plugins are recommended to enhance the
 	user experience.
 -->
+<!-- jQuery validator -->
 <script src="assets/jquery/dist/jquery.validate.js"></script>
+
 <!-- Log out script -->
 <script> 
     $(document).ready(function(){
