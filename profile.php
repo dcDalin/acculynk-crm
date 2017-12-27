@@ -33,6 +33,10 @@
 		<?php 
 		include 'inc/inc.meta.php';
 		?>
+		<!-- jTable CSS includes -->
+		<link href="jtable/themes/jqueryui/jtable_jqueryui.css" rel="stylesheet" type="text/css" />
+		<link href="jtable/themes/lightcolor/blue/jtable.css" rel="stylesheet" type="text/css" />
+		<!-- jTable CSS includes -->
 	</head>
 	<body class="hold-transition skin-blue sidebar-mini">
 		<div id="wrapper-logout" style="display:none; padding:30px;">
@@ -47,8 +51,7 @@
 			?>
 			<!-- Content Wrapper. Contains page content -->
 			<div class="content-wrapper">
-
-
+				<div id="PeopleTableContainer" style="width: 600px;"></div>
 			</div>
 			<?php 
 			include 'inc/inc.main-footer.php';
@@ -60,5 +63,53 @@
 		</div>
 
 		<?php include 'inc/inc.loggedin.footer.meta.php'; ?>
+		
+    	<script src="jtable/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+		<script src="jtable/jquery.jtable.js" type="text/javascript"></script>
+		
+		<script type="text/javascript">
+
+		$(document).ready(function () {
+
+		    //Prepare jTable
+			$('#PeopleTableContainer').jtable({
+				title: 'Table of people',
+				actions: {
+					listAction: 'PersonActions.php?action=list',
+					createAction: 'PersonActions.php?action=create',
+					updateAction: 'PersonActions.php?action=update',
+					deleteAction: 'PersonActions.php?action=delete'
+				},
+				fields: {
+					PersonId: {
+						key: true,
+						create: false,
+						edit: false,
+						list: false
+					},
+					Name: {
+						title: 'Author Name',
+						width: '40%'
+					},
+					Age: {
+						title: 'Age',
+						width: '20%'
+					},
+					RecordDate: {
+						title: 'Record date',
+						width: '30%',
+						type: 'date',
+						create: false,
+						edit: false
+					}
+				}
+			});
+
+			//Load person list from server
+			$('#PeopleTableContainer').jtable('load');
+
+		});
+
+	</script>
 	</body>
 </html>

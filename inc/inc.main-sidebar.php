@@ -42,6 +42,9 @@
 				<ul class="treeview-menu">
 					<li><a href="users">New User</a></li>
 				</ul>
+				<ul class="treeview-menu">
+					<li><a href="jtable">jTable Example</a></li>
+				</ul>
 			</li>
 			<li class=""><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
 			<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
