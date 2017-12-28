@@ -28,12 +28,12 @@
 
             $response = array();
 
-            // Check if email and password are correct 
+            // Check if email exists
             $getALevel = $common -> GetRows("
                 SELECT * FROM tbl_users WHERE email='".$email."' AND isActive=1 LIMIT 1
             ");
             if(!$getALevel){
-                $response['status'] = 'error'; // Could not log in
+                $response['status'] = 'error'; // Email not found
                 $response['message'] = 'Sorry, email address doesn\'t exist'; 
             }else if($getALevel){
                 foreach($getALevel as $A){
@@ -180,7 +180,7 @@
             });
             /* validation */
 
-            /* login submit */
+            /* reset password submit */
             function submitForm(){
                 $.ajax({
                     //url: 'index.ajax.php',
@@ -232,7 +232,7 @@
                     alert('An unknown error occoured, Please try again Later...');
                 });
             }
-            /* login submit */
+            /* reset password submit */
         });
 
     </script>

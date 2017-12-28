@@ -17,9 +17,9 @@
     $common = new common();
 
     // check if user is logged in
-    // If session is not empty -> user is logged in, redirect to profile page
+    // If session is not empty -> user is logged in, redirect to dashboard
     if(!$_SESSION['UID'] == ''){
-        header("Location: profile"); /* Redirect browser */
+        header("Location: dashboard"); /* Redirect browser */
         exit();
     }
 
@@ -214,7 +214,7 @@
                     setTimeout(function(){
                         if (data.status === 'success'){
                             $("#btn-login").html('<img src="ajax-loader.gif" style="margin: auto; width:30%;"> &nbsp; Redirecting...');
-                            setTimeout(' window.location.href = "profile"; ',4000);
+                            setTimeout(' window.location.href = "dashboard"; ',3000);
                         }else if (data.status === 'error'){
                             $('#errorDiv').slideDown('fast', function(){
                                 $('#errorDiv').html('<div class="alert alert-danger">'+data.message+'</div>');

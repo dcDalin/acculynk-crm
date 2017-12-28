@@ -90,7 +90,7 @@
                     </h1>
                 </section>
                 <!-- Main content -->
-                <section class="content">
+                <section class="content" id="create-new-user">
                     <!-- SELECT2 EXAMPLE -->
                     <div class="box box-default">
                         <div class="box-header with-border">
@@ -195,6 +195,52 @@
                     </div>
                     </div>
                     <!-- /.box -->
+                </section>
+
+                <!-- Table showing all users -->
+                <section class="content" id="view-all-users">
+                    <!-- Box header -->
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">All Users</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Username</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </section>
 
 			</div>
@@ -405,6 +451,13 @@
                 });
             }
             /* Create new user */
+
+            /* Clicking the sidebar menu, view users */
+            $('#view-users').click(function() {
+                $('#create-new-user').slideUp();
+                $('#view-all-users').slideDown();
+                return false;
+            });
         });
 
     </script>

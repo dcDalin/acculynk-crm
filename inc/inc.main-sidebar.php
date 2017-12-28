@@ -14,7 +14,7 @@
 			</div>
 		</div>
 
-		<!-- search form (Optional) -->
+		<!-- search form -->
 		<form action="#" method="get" class="sidebar-form">
 			<div class="input-group">
 			<input type="text" name="q" class="form-control" placeholder="Search...">
@@ -28,11 +28,10 @@
 
 		<!-- Sidebar Menu -->
 		<ul class="sidebar-menu" data-widget="tree">
-			<li class="<?= ($activePage == 'profile') ? 'active':''; ?>">
-				<a href="profile"><i class="fa fa-link"></i> <span>Dashboard</span></a>
+			<li class="<?= ($activePage == 'dashboard') ? 'active':''; ?>">
+				<a href="dashboard"><i class="fa fa-link"></i> <span>Dashboard</span></a>
 			</li>
-			<li class="header">USERS</li>
-			<!-- Optionally, you can add icons to the links -->
+			
 			<li class="<?= ($activePage == 'users') ? 'active':'treeview'; ?>">
 				<a href="#"><i class="fa fa-link"></i> <span>Users</span>
 					<span class="pull-right-container">
@@ -41,6 +40,7 @@
 				</a>
 				<ul class="treeview-menu">
 					<li><a href="users">New User</a></li>
+					<li><a href="users" id="view-users">View Users</a></li>
 				</ul>
 			</li>
 			<li class=""><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
@@ -49,9 +49,9 @@
 		<!-- /.sidebar-menu -->
 
 		<!-- Sidebar Menu -->
-		<ul class="sidebar-menu" data-widget="tree">
+		<!-- <ul class="sidebar-menu" data-widget="tree">
 			<li class="header">HEADER</li>
-			<!-- Optionally, you can add icons to the links -->
+			
 			<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
 			<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
 			<li class="treeview">
@@ -65,7 +65,7 @@
 				<li><a href="#">Link in level 2</a></li>
 			</ul>
 			</li>
-		</ul>
+		</ul> -->
 		<!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
