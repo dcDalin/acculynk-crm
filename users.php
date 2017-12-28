@@ -69,6 +69,9 @@
 		<?php 
 		include 'inc/inc.meta.php';
 		?>
+        <!-- Bootstrap table css -->
+        <link rel="stylesheet" href="bootstrap-table/bootstrap-table.css">
+
 	</head>
 	<body class="hold-transition skin-blue sidebar-mini">
 		<div id="wrapper-logout" style="display:none; padding:30px;">
@@ -188,13 +191,6 @@
                             <!-- /.row -->
                         </form>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        Visit <a href="https://select2.github.io/">Select2 documentation</a> for more examples and information about
-                        the plugin.
-                    </div>
-                    </div>
-                    <!-- /.box -->
                 </section>
 
                 <!-- Table showing all users -->
@@ -209,35 +205,26 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table class="table">
+                            <table class="table table-striped"
+                                data-toggle="table"
+                                data-url="ajax/get-users.php"
+                                data-pagination="true"
+                                data-side-pagination="server"
+                                data-page-list="[5, 10]"
+                                data-search="true"
+                                data-height="300"
+                                data-show-refresh="true"
+                                data-show-toggle="true"
+                                data-show-columns="true">
+                                
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Username</th>
+                                        <th data-field="state" data-checkbox="true"></th>
+                                        <th data-field="id" data-align="right" data-sortable="true">Item ID</th>
+                                        <th data-field="fname" data-align="center" data-sortable="true">First Name</th>
+                                        <th data-field="lname" data-sortable="true">Last Name</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                    <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -254,7 +241,11 @@
 		</div>
 
 		<?php include 'inc/inc.loggedin.footer.meta.php'; ?>
-        
+
+        <script src="bootstrap-table/bootstrap-table.js"></script>
+        <!-- put your locale files after bootstrap-table.js -->
+ 
+        <script src="bootstrap-table/locale/bootstrap-table-en-US.js"></script>
         <!-- validate and submit the users form -->
         <script type="text/javascript">
         // valid email pattern
@@ -454,8 +445,8 @@
 
             /* Clicking the sidebar menu, view users */
             $('#view-users').click(function() {
-                $('#create-new-user').slideUp();
-                $('#view-all-users').slideDown();
+                $('#create-new-user').hide();
+                $('#view-all-users').show();
                 return false;
             });
         });
