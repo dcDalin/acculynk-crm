@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2017 at 08:58 AM
+-- Generation Time: Dec 29, 2017 at 04:07 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -21,6 +21,54 @@ SET time_zone = "+00:00";
 --
 -- Database: `acculynk_crm`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_companies`
+--
+
+CREATE TABLE `tbl_companies` (
+  `id` int(11) NOT NULL,
+  `companyName` varchar(60) NOT NULL,
+  `companyEmail` varchar(50) DEFAULT NULL,
+  `companyPhoneNumber` varchar(15) DEFAULT NULL,
+  `companyWebsite` varchar(50) DEFAULT NULL,
+  `category` varchar(20) NOT NULL,
+  `latitude` varchar(20) NOT NULL,
+  `longitude` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_contact`
+--
+
+CREATE TABLE `tbl_contact` (
+  `contact_id` int(11) NOT NULL,
+  `firstName` varchar(50) NOT NULL,
+  `lastName` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phoneNumber` varchar(15) NOT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '0',
+  `company` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_contact_notes`
+--
+
+CREATE TABLE `tbl_contact_notes` (
+  `notesId` int(11) NOT NULL,
+  `notesTitle` varchar(50) NOT NULL,
+  `notesDescription` text NOT NULL,
+  `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dueDate` datetime NOT NULL,
+  `contactId` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -72,20 +120,20 @@ CREATE TABLE `tbl_users` (
   `id` int(11) NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
   `gender` enum('Male','Female','Other') NOT NULL,
-  `phoneNumber` varchar(10) DEFAULT NULL,
-  `idNumber` int(15) DEFAULT NULL,
+  `phoneNumber` varchar(20) NOT NULL,
+  `idNumber` int(20) NOT NULL,
   `pass` varchar(100) NOT NULL,
   `photo` varchar(255) DEFAULT NULL,
-  `userLevel` enum('0','1','2','3','4','5','6') NOT NULL,
+  `userLevel` varchar(10) NOT NULL,
   `last_login` timestamp NULL DEFAULT NULL,
   `last_passchange` timestamp NULL DEFAULT NULL,
   `isActive` int(1) DEFAULT '1',
   `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT '0',
-  `tokenCode` varchar(60) NOT NULL,
-  `online` enum('Y','N') NOT NULL DEFAULT 'N'
+  `tokenCode` varchar(60) DEFAULT NULL,
+  `online` enum('Y','N') DEFAULT 'N'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -93,7 +141,9 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `firstName`, `lastName`, `email`, `gender`, `phoneNumber`, `idNumber`, `pass`, `photo`, `userLevel`, `last_login`, `last_passchange`, `isActive`, `date_created`, `created_by`, `tokenCode`, `online`) VALUES
-(2, 'Dalin', 'Oluoch', 'mcdalinoluoch@gmail.com', 'Male', '0715973838', 30423877, '5f4dcc3b5aa765d61d8327deb882cf99', NULL, '0', NULL, NULL, 1, '2017-12-19 21:18:13', 0, 'da9eef6eeea8ae714a83869a485a55dd', 'Y');
+(1, 'Admin', 'Admin', 'admin@localhost.com', 'Male', '0000000000', 1000000, '5f4dcc3b5aa765d61d8327deb882cf99', NULL, '', NULL, NULL, 1, '2017-12-24 16:49:56', 0, NULL, 'Y'),
+(2, 'Dalin', 'Oluoch', 'mcdalinoluoch@gmail.com', 'Male', '0715973838', 30423877, '2c3130d44848f13711d70887c7d4e0c9', NULL, '1', NULL, NULL, 1, '2017-12-24 16:54:15', 0, '', 'Y'),
+(3, 'Twiga', 'Musiya', 'twiga@mus.com', 'Female', '0783434783', 27837637, '5f4dcc3b5aa765d61d8327deb882cf99', NULL, '3', NULL, NULL, 1, '2017-12-29 06:57:26', 0, NULL, 'N');
 
 -- --------------------------------------------------------
 
@@ -113,11 +163,32 @@ CREATE TABLE `tbl_user_level` (
 
 INSERT INTO `tbl_user_level` (`userLevelId`, `userLevelName`, `userLevelDescription`) VALUES
 ('1', 'Administrator', 'Performs administrative tasks'),
-('2', 'Manager', 'Manages people');
+('2', 'Manager', 'Manages people'),
+('3', 'Sales Manager', 'Manages the sales team, make sure they do a good job you know! :)');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tbl_companies`
+--
+ALTER TABLE `tbl_companies`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_contact`
+--
+ALTER TABLE `tbl_contact`
+  ADD PRIMARY KEY (`contact_id`),
+  ADD KEY `company` (`company`);
+
+--
+-- Indexes for table `tbl_contact_notes`
+--
+ALTER TABLE `tbl_contact_notes`
+  ADD PRIMARY KEY (`notesId`),
+  ADD KEY `contactId` (`contactId`);
 
 --
 -- Indexes for table `tbl_sys_config`
@@ -131,9 +202,10 @@ ALTER TABLE `tbl_sys_config`
 ALTER TABLE `tbl_users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `idNumber` (`idNumber`),
   ADD UNIQUE KEY `phoneNumber` (`phoneNumber`),
-  ADD KEY `userLevel` (`userLevel`);
+  ADD UNIQUE KEY `idNumber` (`idNumber`),
+  ADD KEY `userLevel` (`userLevel`),
+  ADD KEY `userLevel_2` (`userLevel`);
 
 --
 -- Indexes for table `tbl_user_level`
@@ -146,10 +218,44 @@ ALTER TABLE `tbl_user_level`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_companies`
+--
+ALTER TABLE `tbl_companies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_contact`
+--
+ALTER TABLE `tbl_contact`
+  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_contact_notes`
+--
+ALTER TABLE `tbl_contact_notes`
+  MODIFY `notesId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tbl_contact`
+--
+ALTER TABLE `tbl_contact`
+  ADD CONSTRAINT `tbl_contact_ibfk_1` FOREIGN KEY (`company`) REFERENCES `tbl_companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_contact_notes`
+--
+ALTER TABLE `tbl_contact_notes`
+  ADD CONSTRAINT `tbl_contact_notes_ibfk_1` FOREIGN KEY (`contactId`) REFERENCES `tbl_contact` (`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
