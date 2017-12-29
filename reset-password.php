@@ -37,13 +37,16 @@
                 $response['message'] = 'Sorry, email address doesn\'t exist'; 
             }else if($getALevel){
                 foreach($getALevel as $A){
-                    $_SESSION['resetID'] = $A["id"];;
+                    $_SESSION['resetID'] = $A["id"];
+                    $_SESSION['resetFirstName'] = $A["firstName"];
                 }
                 
+                $userFirstName = $_SESSION['resetFirstName'];
+                $id = base64_encode($_SESSION['resetID']);
                 $code = md5(uniqid(rand()));
 
                 $updateTokenCode = $common -> GetRows("
-                    UPDATE tbl_users SET tokenCode = '".$code."' WHERE id = '".$_SESSION['resetID']."'
+                    UPDATE tbl_users SET tokenCode = '".$code."' WHERE email='".$email."'
                 ");
                 if(!$updateTokenCode){
 
@@ -51,9 +54,9 @@
                     $response['message'] = 'Check your email for reset link'; 
 
                     $message= "
-                        Hello , $email
+                        Hello $userFirstName
                         <br /><br />
-                        We got requested to reset your password, if you do this then just click the following link to reset your password, if not just ignore                   this email,
+                        Want to reset your password? You do so by clicking the link below
                         <br /><br />
                         Click Following Link To Reset Your Password 
                         <br /><br />
@@ -186,14 +189,16 @@
                     //url: 'index.ajax.php',
                     type: 'POST',
                     data: $('#reset-password-form').serialize(),
-                    dataType: 'json'
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('#btn-reset-pass').html('<img src="ajax-loader.gif" style="margin: auto; width:30%;"> &nbsp; Connecting...').prop('disabled', true);
+                        $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', true);
+                        $("#back-to-login").slideUp('fast');
+                        $("#remember-me").slideUp('fast');
+                    },
                 })
                 .done(function(data){
-                    $('#btn-reset-pass').html('<img src="ajax-loader.gif" style="margin: auto; width:30%;"> &nbsp; Processing...').prop('disabled', true);
-                    $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', true);
-                    $("#back-to-login").slideUp('fast');
-                    $("#remember-me").slideUp('fast');
-                    
+                    $('#btn-reset-pass').html('<img src="ajax-loader.gif" style="margin: auto; width:30%;"> &nbsp; Sending...').prop('disabled', true);                  
 
                     setTimeout(function(){
                         if (data.status === 'success'){
@@ -205,7 +210,7 @@
                                 $('#btn-reset-pass').html('Reset Password').prop('disabled', false);
                             }).delay(4000).slideUp('fast');
 
-                            setTimeout(' window.location.href = "profile"; ',4000);
+                            setTimeout(' window.location.href = "index"; ',4000);
                         }else if (data.status === 'error'){
                             $('#errorDiv').slideDown('fast', function(){
                                 $('#errorDiv').html('<div class="alert alert-danger">'+data.message+'</div>');
