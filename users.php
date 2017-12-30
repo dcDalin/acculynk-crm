@@ -33,7 +33,7 @@
             $idNumber = trim($_POST['idNumber']);
             $userLevel = trim($_POST['userLevel']);
 
-            $user_password = 'password';
+            $user_password = substr(md5(microtime()),rand(0,26),6);
             $password = md5($user_password);
 
             $response = array();
@@ -49,6 +49,21 @@
             }else if($query){
                 $response['status'] = 'success'; 
                 $response['message'] = 'New user successfuly created'; 
+
+                $message= "
+                        Hello $firstName
+                        <br /><br />
+                        Your CRM Account has been created
+                        <br /><br />
+                        Below is your password, be sure to change it
+                        <br /><br />
+                        $user_password
+                        <br /><br />
+                        thank you
+                    ";
+                $subject = "CRM Account Creation";
+            
+                $common->send_mail($email,$message,$subject);
             } 
             echo json_encode($response);
             exit;
@@ -69,6 +84,8 @@
 		<?php 
 		include 'inc/inc.meta.php';
 		?>
+        <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" />
 	</head>
 	<body class="hold-transition skin-blue sidebar-mini">
 		<div id="wrapper-logout" style="display:none; padding:30px;">
@@ -188,13 +205,6 @@
                             <!-- /.row -->
                         </form>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        Visit <a href="https://select2.github.io/">Select2 documentation</a> for more examples and information about
-                        the plugin.
-                    </div>
-                    </div>
-                    <!-- /.box -->
                 </section>
 
                 <!-- Table showing all users -->
@@ -209,40 +219,21 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table class="table">
+                            <table id="tbl-users" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Username</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Gender</th>
+                                        <th>Phone Number</th>
+                                        <th>ID Number</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                    <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>
                 </section>
-
 			</div>
 			<?php 
 			include 'inc/inc.main-footer.php';
@@ -254,6 +245,9 @@
 		</div>
 
 		<?php include 'inc/inc.loggedin.footer.meta.php'; ?>
+
+        <script type="text/javascript" src="DataTables/datatables.min.js"></script>
+
         
         <!-- validate and submit the users form -->
         <script type="text/javascript">
@@ -420,11 +414,15 @@
                     //url: 'index.ajax.php',
                     type: 'POST',
                     data: $('#new-user-form').serialize(),
-                    dataType: 'json'
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('#btn-create-user').html('<img src="ajax-loader.gif" style="margin: auto; width:30px;"> &nbsp; Processing...').prop('disabled', true);
+                        $('input[type=email],input[type=text],input[type=tel],input[type=number],input[type=password],input[type=checkbox],#gender,#userLevel').prop('disabled', true); 
+                    }
                 })
                 .done(function(data){
                     $('#btn-create-user').html('<img src="ajax-loader.gif" style="margin: auto; width:30px;"> &nbsp; Processing...').prop('disabled', true);
-                    $('input[type=email],input[type=text],input[type=tel],input[type=number],input[type=password],input[type=checkbox],#gender,#userLevel').prop('disabled', true);                  
+                    // $('input[type=email],input[type=text],input[type=tel],input[type=number],input[type=password],input[type=checkbox],#gender,#userLevel').prop('disabled', true);                  
 
                     setTimeout(function(){
                         if (data.status === 'success'){
@@ -461,5 +459,26 @@
         });
 
     </script>
+
+    <!-- Show Data Table -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#tbl-users').DataTable({
+                "ajax": "ajax/get-users.php",
+                
+                
+                
+                "columns": [  
+                    { "data": "fname" },
+                    { "data": "lname" },
+                    { "data": "email" },
+                    { "data": "gender" },
+                    { "data": "phoneNumber" },
+                    { "data": "idNumber" }
+                ]
+            });
+        });
+    </script>
+
 	</body>
 </html>
