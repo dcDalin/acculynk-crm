@@ -141,7 +141,19 @@
 
                 <p>
                   <?php echo $_SESSION['userFirstName']; ?> <?php echo $_SESSION['userLastName']; ?>
-                  <small>Member since Nov. 2012</small>
+                  <small>
+                    <?php
+                      if($_SESSION['userLevel'] == '1'){
+                        echo 'Administrator';
+                      }else if($_SESSION['userLevel'] == '2'){
+                        echo 'Sales Manager';
+                      }else if($_SESSION['userLevel'] == '3'){
+                        echo 'Sales';
+                      }else{
+                        echo 'Unknown';
+                      }
+                    ?>
+                  </small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -171,10 +183,6 @@
                 </div>
               </li>
             </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
           </li>
         </ul>
       </div>

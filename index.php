@@ -217,7 +217,7 @@
                             setTimeout(' window.location.href = "dashboard"; ',3000);
                         }else if (data.status === 'error'){
                             $('#errorDiv').slideDown('fast', function(){
-                                $('#errorDiv').html('<div class="alert alert-danger">'+data.message+'</div>');
+                                swal("Error!", "Wrong email and or password!", "error");
                                 $("#login-form").trigger('reset');
                                 $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', false);
                                 $('#btn-login').html('Login').prop('disabled', false);

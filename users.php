@@ -21,6 +21,10 @@
         header("Location: index"); /* Redirect browser */
         exit();
     }
+    if($_SESSION['userLevel'] != '1'){
+        header("Location: index"); /* Redirect browser */
+        exit();
+    }
 
     /* Start ajax New User process */
     if(filter_has_var(INPUT_POST, 'btn-create-user')){
@@ -103,7 +107,7 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Users
+                        Users 
                     </h1>
                 </section>
                 <!-- Main content -->
@@ -228,6 +232,7 @@
                                         <th>Gender</th>
                                         <th>Phone Number</th>
                                         <th>ID Number</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -237,9 +242,6 @@
 			</div>
 			<?php 
 			include 'inc/inc.main-footer.php';
-			?>
-			<?php 
-			include 'inc/inc.control-sidebar.php';
 			?>
 		<!-- Wrapper end div -->
 		</div>
@@ -465,9 +467,6 @@
         $(document).ready(function(){
             $('#tbl-users').DataTable({
                 "ajax": "ajax/get-users.php",
-                
-                
-                
                 "columns": [  
                     { "data": "fname" },
                     { "data": "lname" },

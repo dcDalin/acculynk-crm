@@ -31,18 +31,51 @@
 			<li class="<?= ($activePage == 'dashboard') ? 'active':''; ?>">
 				<a href="dashboard"><i class="fa fa-link"></i> <span>Dashboard</span></a>
 			</li>
+			<?php
+				if($_SESSION['userLevel'] == '1'){
+					// Administrator
+					?>
+						<li class="<?= ($activePage == 'users') ? 'active':'treeview'; ?>">
+							<a href="#"><i class="fa fa-link"></i> <span>Users</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li><a href="users">New User</a></li>
+								<li><a href="users" id="view-users">View Users</a></li>
+							</ul>
+						</li>
+					<?php
+				}else{
+					?>
+						<li class="<?= ($activePage == 'new-company' || $activePage == 'view-companies') ? 'active':'treeview'; ?>">
+							<a href="#"><i class="fa fa-link"></i> <span>Companies</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li><a href="new-company">New Company</a></li>
+								<li><a href="view-companies">View Companies</a></li>
+							</ul>
+						</li>
+
+						<li class="<?= ($activePage == 'new-contact' || $activePage == 'view-contacts') ? 'active':'treeview'; ?>">
+							<a href="#"><i class="fa fa-link"></i> <span>Contacts</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li><a href="new-contact">New Contact</a></li>
+								<li><a href="view-contacts">View Contacts</a></li>
+							</ul>
+						</li>
+					<?php
+				}
+			?>
 			
-			<li class="<?= ($activePage == 'users') ? 'active':'treeview'; ?>">
-				<a href="#"><i class="fa fa-link"></i> <span>Users</span>
-					<span class="pull-right-container">
-						<i class="fa fa-angle-left pull-right"></i>
-					</span>
-				</a>
-				<ul class="treeview-menu">
-					<li><a href="users">New User</a></li>
-					<li><a href="users" id="view-users">View Users</a></li>
-				</ul>
-			</li>
 			<li class=""><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
 			<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
 		</ul>

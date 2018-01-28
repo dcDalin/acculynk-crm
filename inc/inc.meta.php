@@ -13,3 +13,5 @@
 <link rel="stylesheet" href="assets/iCheck/square/blue.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<!-- Sweet alert css -->
+<link rel="stylesheet" type="text/css" href="assets/swal2/sweetalert2.min.css" />

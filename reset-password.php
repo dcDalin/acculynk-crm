@@ -204,7 +204,7 @@
                         if (data.status === 'success'){
                             $("#btn-reset-pass").html('<img src="ajax-loader.gif" style="margin: auto; width:30%;"> &nbsp; Redirecting...');
                             $('#errorDiv').slideDown('fast', function(){
-                                $('#errorDiv').html('<div class="alert alert-success">'+data.message+'</div>');
+                                swal("Success!", data.message, "success");
                                 $("#reset-password-form").trigger('reset');
                                 $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', false);
                                 $('#btn-reset-pass').html('Reset Password').prop('disabled', false);
@@ -213,7 +213,7 @@
                             setTimeout(' window.location.href = "index"; ',4000);
                         }else if (data.status === 'error'){
                             $('#errorDiv').slideDown('fast', function(){
-                                $('#errorDiv').html('<div class="alert alert-danger">'+data.message+'</div>');
+                                swal("Error!", data.message, "error");
                                 $("#reset-password-form").trigger('reset');
                                 $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', false);
                                 $('#btn-reset-pass').html('Reset Password').prop('disabled', false);
@@ -222,7 +222,7 @@
                             $("#remember-me").slideDown('fast');
                         }else if (data.status === 'unknown'){
                             $('#errorDiv').slideDown('fast', function(){
-                                $('#errorDiv').html('<div class="alert alert-danger">'+data.message+'</div>');
+                                swal("Error!", data.message, "error");
                                 $("#reset-password-form").trigger('reset');
                                 $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', false);
                                 $('#btn-reset-pass').html('Reset Password').prop('disabled', false);

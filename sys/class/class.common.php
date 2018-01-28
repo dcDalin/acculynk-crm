@@ -92,6 +92,7 @@
 				$stmt = $this->db->prepare($sql);
 				$stmt->execute();
 				$stmt->closeCursor();
+				return $stmt;
 			} catch(Exception $e) {
 				return $e->getMessage();
 			}

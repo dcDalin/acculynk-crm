@@ -49,10 +49,10 @@
             if($stmt){
                 $updatePass = $common -> GetRows("UPDATE tbl_users SET pass='".$pass."', tokenCode='' WHERE id='".$id."'");
                 $response['status'] = 'success'; 
-                $response['message'] = 'Success, stmt worked'; 
+                $response['message'] = 'Success, password changed'; 
             }else if(!$stmt){
                 $response['status'] = 'error'; 
-                $response['message'] = $code; 
+                $response['message'] = 'Sorry, password not changed'; 
             }
             echo json_encode($response);
             exit;
@@ -179,16 +179,17 @@
                     setTimeout(function(){
                         if (data.status === 'success'){
                             $("#btn-reset-pass").html('<img src="ajax-loader.gif" style="margin: auto; width:30%;"> &nbsp; Redirecting...');
+                            swal("Success!", data.message, "success");
                             setTimeout(' window.location.href = "dashboard"; ',3000);
                         }else if (data.status === 'error'){
                             $('#errorDiv').slideDown('fast', function(){
-                                $('#errorDiv').html('<div class="alert alert-danger">'+data.message+'</div>');
+                                swal("Error!", data.message, "error");
                                 $("#reset-pass-form").trigger('reset');
                                 $('input[type=email],input[type=password],input[type=checkbox]').prop('disabled', false);
                                 $('#btn-reset-pass').html('Login').prop('disabled', false);
                             }).delay(3000).slideUp('fast');
                         }
-                    },3000);
+                    },3000); 
                 })
                 .fail(function(){
                     $("#reset-pass-form").trigger('reset');

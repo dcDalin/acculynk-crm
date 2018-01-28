@@ -53,9 +53,6 @@
 			<?php 
 			include 'inc/inc.main-footer.php';
 			?>
-			<?php 
-			include 'inc/inc.control-sidebar.php';
-			?>
 		<!-- Wrapper end div -->
 		</div>
 

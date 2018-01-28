@@ -15,5 +15,8 @@
             });
           });
         </script>
+
+        <!-- Sweet alert js -->
+<script type="text/javascript" src="assets/swal2/sweetalert2.min.js"></script>
         
          

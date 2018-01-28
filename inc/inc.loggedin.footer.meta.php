@@ -12,6 +12,9 @@
 	Both of these plugins are recommended to enhance the
 	user experience.
 -->
+<!-- Sweet alert js -->
+<script type="text/javascript" src="assets/swal2/sweetalert2.min.js"></script>
+
 <!-- jQuery validator -->
 <script src="assets/jquery/dist/jquery.validate.js"></script>
 
@@ -19,29 +22,45 @@
 <script> 
     $(document).ready(function(){
         $("#btn-logout").click(function(){
-            // $("p").hide();
-            $.ajax({
-                url: 'logout.php',
-                type: 'POST',
-                dataType: 'json'
-            })
-            .done(function(data){
-                $("#wrapper").slideUp('slow');
-                $("#wrapper-logout").slideDown('slow');
-                $("#wrapper-logout").html('<h5>Saving... <img src="ajax-loader.gif" style="margin: auto; width:30px;"></h5>');
-                setTimeout(function(){
-                    if (data.status === 'success'){
-                        $("#wrapper-logout").html('<h5>Logging out... <img src="ajax-loader.gif" style="margin: auto; width:30px;"></h5>');
-                        setTimeout(' window.location.href = "index"; ',3000);
-                    }else{
-                        $("#wrapper-logout").html('<h5>Failed... <img src="ajax-loader.gif" style="margin: auto; width:30px;"></h5>');
-                        setTimeout(' window.location.href = "profile"; ',3000);
-                    }
-                },3000);
-            })
-            .fail(function(){
-                alert('Could not log you out, please try again...');
-            });
+            swal({
+                title: 'Are you sure?',
+                text: "You will be logged out of the system",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Log me out!',
+                showLoaderOnConfirm: true,
+                
+                preConfirm: function() {
+                    return new Promise(function(resolve) {
+                        
+                        $.ajax({
+                            url: 'logout.php',
+                            type: 'POST',
+                            dataType: 'json'
+                        })
+                        .done(function(data){
+                            $("#wrapper").slideUp('slow');
+                            $("#wrapper-logout").slideDown('slow');
+                            $("#wrapper-logout").html('<h5>Saving... <img src="ajax-loader.gif" style="margin: auto; width:30px;"></h5>');
+                            setTimeout(function(){
+                                if (data.status === 'success'){
+                                    $("#wrapper-logout").html('<h5>Logging out... <img src="ajax-loader.gif" style="margin: auto; width:30px;"></h5>');
+                                    setTimeout(' window.location.href = "index"; ',3000);
+                                }else{
+                                    $("#wrapper-logout").html('<h5>Failed... <img src="ajax-loader.gif" style="margin: auto; width:30px;"></h5>');
+                                    setTimeout(' window.location.href = "profile"; ',3000);
+                                }
+                            },3000);
+                        })
+                        .fail(function(){
+                            swal('Oops...', 'Something went wrong with ajax !', 'error');
+                        });
+                    });
+                },
+                allowOutsideClick: false			  
+            });	
         });
     });
 </script>
