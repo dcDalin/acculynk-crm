@@ -12,6 +12,9 @@
 	Both of these plugins are recommended to enhance the
 	user experience.
 -->
+<!-- Bootstrap Table js -->
+<script src="bootstrap-tables/bootstrap-table.min.js"></script>
+
 <!-- Sweet alert js -->
 <script type="text/javascript" src="assets/swal2/sweetalert2.min.js"></script>
 
