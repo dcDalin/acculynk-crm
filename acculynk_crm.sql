@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.6
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 29, 2017 at 04:07 PM
+-- Host: localhost
+-- Generation Time: Feb 03, 2018 at 07:12 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -29,15 +29,22 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tbl_companies` (
+  `userPic` varchar(60) NOT NULL,
   `id` int(11) NOT NULL,
   `companyName` varchar(60) NOT NULL,
   `companyEmail` varchar(50) DEFAULT NULL,
   `companyPhoneNumber` varchar(15) DEFAULT NULL,
   `companyWebsite` varchar(50) DEFAULT NULL,
-  `category` varchar(20) NOT NULL,
-  `latitude` varchar(20) NOT NULL,
-  `longitude` varchar(20) NOT NULL
+  `category` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_companies`
+--
+
+INSERT INTO `tbl_companies` (`userPic`, `id`, `companyName`, `companyEmail`, `companyPhoneNumber`, `companyWebsite`, `category`) VALUES
+('', 71, 'Phone Limited', 'phone@limited.com', '0712356354', 'phone.com', 'Service'),
+('', 72, 'Bicycle Wheels', 'bicycle@info.com', '0712356354', 'www.hut.com', 'Merchandising');
 
 -- --------------------------------------------------------
 
@@ -50,7 +57,9 @@ CREATE TABLE `tbl_contact` (
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
+  `gender` varchar(10) NOT NULL,
   `phoneNumber` varchar(15) NOT NULL,
+  `idNumber` int(20) NOT NULL,
   `status` enum('0','1') NOT NULL DEFAULT '0',
   `company` int(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -142,8 +151,10 @@ CREATE TABLE `tbl_users` (
 
 INSERT INTO `tbl_users` (`id`, `firstName`, `lastName`, `email`, `gender`, `phoneNumber`, `idNumber`, `pass`, `photo`, `userLevel`, `last_login`, `last_passchange`, `isActive`, `date_created`, `created_by`, `tokenCode`, `online`) VALUES
 (1, 'Admin', 'Admin', 'admin@localhost.com', 'Male', '0000000000', 1000000, '5f4dcc3b5aa765d61d8327deb882cf99', NULL, '', NULL, NULL, 1, '2017-12-24 16:49:56', 0, NULL, 'Y'),
-(2, 'Dalin', 'Oluoch', 'mcdalinoluoch@gmail.com', 'Male', '0715973838', 30423877, '2c3130d44848f13711d70887c7d4e0c9', NULL, '1', NULL, NULL, 1, '2017-12-24 16:54:15', 0, '', 'Y'),
-(3, 'Twiga', 'Musiya', 'twiga@mus.com', 'Female', '0783434783', 27837637, '5f4dcc3b5aa765d61d8327deb882cf99', NULL, '3', NULL, NULL, 1, '2017-12-29 06:57:26', 0, NULL, 'N');
+(3, 'Twiga', 'Musiya', 'twiga@mus.com', 'Female', '0783434783', 27837637, '5f4dcc3b5aa765d61d8327deb882cf99', NULL, '3', NULL, NULL, 1, '2017-12-29 06:57:26', 0, NULL, 'N'),
+(4, 'Dalo', 'Mallo', 'mcdalinoluoch@gmail.com', 'Male', '0715973838', 37362767, 'a3ef74254a5d1c201295bb3049da26ed', NULL, '2', NULL, NULL, 1, '2017-12-30 00:28:02', 0, '', 'Y'),
+(5, 'Shopper', 'Sa', 'shopper@sacco.com', 'Male', '0712376327', 29837678, '90b35b961c5c9a1b3f0aea6aba8f2dc8', NULL, '2', NULL, NULL, 1, '2018-01-17 13:28:44', 0, NULL, 'N'),
+(6, 'Another', 'Onnee', 'another@one.com', 'Male', '0723473478', 3823898, '6f85cfaae09acd596045d5e3130f7f87', NULL, '2', NULL, NULL, 1, '2018-01-17 13:31:04', 0, NULL, 'N');
 
 -- --------------------------------------------------------
 
@@ -163,8 +174,8 @@ CREATE TABLE `tbl_user_level` (
 
 INSERT INTO `tbl_user_level` (`userLevelId`, `userLevelName`, `userLevelDescription`) VALUES
 ('1', 'Administrator', 'Performs administrative tasks'),
-('2', 'Manager', 'Manages people'),
-('3', 'Sales Manager', 'Manages the sales team, make sure they do a good job you know! :)');
+('2', 'Sales Manager', 'In charge of the Sales Team'),
+('3', 'Sales Team', 'Perform sales activities');
 
 --
 -- Indexes for dumped tables
@@ -221,7 +232,7 @@ ALTER TABLE `tbl_user_level`
 -- AUTO_INCREMENT for table `tbl_companies`
 --
 ALTER TABLE `tbl_companies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `tbl_contact`
@@ -239,7 +250,7 @@ ALTER TABLE `tbl_contact_notes`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

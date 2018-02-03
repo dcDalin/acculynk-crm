@@ -87,7 +87,7 @@
 
                     <div class="box-body">
                         <div id="load-edit-form">
-                            <!-- Companies will be loaded here -->
+                            <!-- Edit company form will be loaded here -->
                         </div>
                     </div>
                 </section>
@@ -103,79 +103,11 @@
         <script>
             $(document).ready(function(){
                 readCompanies(); /* it will load products when document loads */
-                
-                $(document).on('click', '#delete_company', function(e){  
-                    var companyId = $(this).data("id");
-                    SwalDelete(companyId);
-                    e.preventDefault();
-                });
-
-                $(document).on('click', '#edit_company', function(e){  
-                    var companyId = $(this).data("id");
-                    SwalEdit(companyId);
-                    e.preventDefault();
-                });
-
-                // $(document).on('click', '#edit_company', function(e){
-                //     var companyId = $(this).data('id');
-                //     $("#view-companies").hide();
-                //     $("#edit-company").show('slow');
-                //     showEditForm();
-                //     e.preventDefault();
-                // });
-                
             });
 
-            function SwalEdit(companyId){
-                alert(companyId);
-                $("#view-companies").hide();
-                 $("#edit-company").show('slow');
-                    showEditForm();			  
-                
-            }
-
-            function SwalDelete(companyId){
-                swal({
-                    title: 'Are you sure?',
-                    text: "It will be deleted permanently!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes',
-                    showLoaderOnConfirm: true,
-                    
-                    preConfirm: function() {
-                    return new Promise(function(resolve) {
-                        
-                        $.ajax({
-                            url: 'view-companies-delete.php',
-                            type: 'POST',
-                            data: 'deleteCompany='+companyId,
-                            dataType: 'json'
-                        })
-                        .done(function(response){
-                            swal('Deleted!', response.message, response.status);
-                            readCompanies();
-                        })
-                        .fail(function(){
-                            swal('Oops...', 'Something went wrong with ajax !', 'error');
-                        });
-                    });
-                    },
-                    allowOutsideClick: false			  
-                });	
-                
-            }
-            
             function readCompanies(){
                 $('#load-companies').load('view-companies-load.php');	
             }
-
-            function showEditForm(){
-                $('#load-edit-form').load('view-companies-edit-form.php');	
-            }
-            
         </script>
 	</body>
 </html>

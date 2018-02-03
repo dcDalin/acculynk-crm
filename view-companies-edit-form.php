@@ -1,8 +1,6 @@
 <?php
-	
-	header('Content-type: application/json; charset=UTF-8');
 
-	if ($_POST['editCompany']) {
+	if (isset($_POST['editCompany'])) {
 		
         include_once('sys/core/init.inc.php');
         
